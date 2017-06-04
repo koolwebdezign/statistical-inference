@@ -2,7 +2,11 @@
 
 ## Introduction
 
-This project is completed as an integral part of the Statistical Inference course offered by Johns Hopkins University on Coursera.  This Statistical Inference course is the sixth course in a ten course series which comprises the Johns Hopkins University Specialization in Data Science. 
+This project is completed as an integral part of the Statistical Inference course offered by Johns Hopkins University on Coursera.  This Statistical Inference course is the sixth course in a ten course series which comprises the Johns Hopkins University Specialization in Data Science.  
+
+My name is Jack Welch.  I am an MBA student at Bridgewater State University.  I am completing this course with the intention of enhancing my MBA studies with a concentration in data science and data analytics.
+
+The instructions offered below have been extracted from my project assignment.
 
 ## Instructions
 
@@ -79,8 +83,5 @@ Some criteria that you will be evaluated on
 
 * Did you  perform an exploratory data analysis of at least a single plot or table highlighting basic features of the data?
 * Did the student perform some relevant confidence intervals and/or tests?  
-
 * Were the results of the tests and/or intervals interpreted in the context of the problem correctly?   
-
 * Did the student describe the assumptions needed for their conclusions?
-
