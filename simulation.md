@@ -1,4 +1,4 @@
-# Investigate the exponential distribution in R and compare it with the Central Limit Theorem
+# Asymptotics and use of the Central Limit Theorem
 Jack Welch  
 June 4, 2017  
 
@@ -33,7 +33,9 @@ This distribution looks far more Gaussian than the original uniform distribution
 
 The useful way to think about the CLT is to understand that the sample average is approximately normally distributed with a mean given by the population mean and a variance given by the standard error of the mean.
 
-## Simulation - Single Exponential Distribution
+## Simulations
+
+### Single Exponential Distribution
 
 Let's simulate an exponential distribution and then visualize this exponential distribution with a histrogram, as given in the instructions for this project.
 
@@ -51,19 +53,30 @@ expdist
 ```
 
 ```
-##  [1]  0.275900508  1.570960467  2.965396363  2.168630261  2.550167721
-##  [6] 16.769179738  4.192900071  4.731846517  0.004768543  3.199989051
-## [11]  6.840757821  3.256670034  3.004822250  2.231998092  4.662691927
-## [16]  5.247346354  5.812189877  3.381160139 18.079725531  6.084014918
-## [21]  3.759809281 11.499128928  6.228080095  1.082625429  1.964145249
-## [26] 16.042695715 10.861935159  6.360792820 13.082329844  0.557937025
-## [31]  1.154277492 17.830466174  3.157988917  8.848415315  5.290896963
-## [36]  3.457721178  2.557441257  3.477391288  4.941240568  1.821908004
+##  [1]  5.01515505  0.09916302 11.05272087  4.71067335  9.75570307
+##  [6]  3.53673085  1.78301440  2.90319836  5.61403375  2.78585876
+## [11]  6.60500931  2.04071433  0.93071413  3.94142515 10.44152546
+## [16]  3.16006572  0.84820849  1.61830614  0.59635023  1.88897376
+## [21]  6.48026052  3.83229797  0.30346930 11.91281048  0.51537815
+## [26]  3.08168118  2.22000126 21.20277199  0.76710296  6.57910278
+## [31]  6.25017748  9.52221755  5.13629430  3.14050627  1.86681339
+## [36]  0.89070648  7.68246488 11.35465484  1.35565919  2.35314488
 ```
 
 ```r
 # create a histogram of the exponential distribution
 hist(expdist)
+# show the mean in the color blue on the histogram
+abline(v = mean(expdist), col = "blue", lwd = 1)
+# show the lower limit of sigma in the color red on the histogram
+abline(v = mean(expdist)-sd(expdist), col = "red", lwd = 1)
+# show the upper limit of sigma in the color red on the histogram
+abline(v = mean(expdist)+sd(expdist), col = "red", lwd = 1)
+# add a legend
+legend(x = "topright", 
+   c("Mean", "Sigma"),
+   col = c("blue", "red"),
+   lwd = c(2, 2))
 ```
 
 ![](simulation_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
@@ -76,7 +89,7 @@ mean(expdist)
 ```
 
 ```
-## [1] 5.525209
+## [1] 4.644377
 ```
 
 Now, let's calculate the standard deviation of this simulated exponential distribution
@@ -87,10 +100,10 @@ sd(expdist)
 ```
 
 ```
-## [1] 4.893565
+## [1] 4.320884
 ```
 
-## Simulation - Theoretical Mean and Standard Deviation
+### Theoretical Mean and Standard Deviation of Exponential Distribution
 
 It is stated inside the exercise that the theoretical mean of the distribution is equal to 1/lambda.  It is further stated that the theoretical standard deviation is also equal to 1/lambda. Let's now calculate this theoretical mean and standard deviation.
 
@@ -104,16 +117,32 @@ lambda^-1
 ## [1] 5
 ```
 
-## Simulation - 1000 Samples of the Exponential Distribution
+It is quite clear that the mean and standard deviation of our **single** simulated distribution is close to the theoretical calculation of 1/lambda.
 
-It is quite clear that the mean and standard deviation of our **single** simulated distribution is close to the theoretical mean and this is only one **single** distribution.  What happens if we now simulate 1000 exponential distributions and take the mean of these 1000 distributions?  The Central Limit Theorem tells us that the mean should get closer to the theoretical mean and the distribution of these means should become that of a standard normal.
+### 1000 Samples of the Exponential Distribution
+
+What happens if we now simulate 1000 exponential distributions and take the mean of these 1000 distributions?  The Central Limit Theorem tells us that the mean should get closer to the theoretical mean and the distribution of these means should become that of a standard normal, meaning that sigma should approach the value of 1.
 
 
 ```r
+# simulate 1000 means of exponential distributions
 sim_mns = NULL
 for (i in 1 : 1000) sim_mns = c(sim_mns, mean(rexp(n, lambda)))
 
+# generate a histogram
 hist(sim_mns)
+
+# show the mean in the color blue on the histogram
+abline(v = mean(sim_mns), col = "blue", lwd = 1)
+# show the lower limit of sigma in the color red on the histogram
+abline(v = mean(sim_mns)-sd(sim_mns), col = "red", lwd = 1)
+# show the upper limit of sigma in the color red on the histogram
+abline(v = mean(sim_mns)+sd(sim_mns), col = "red", lwd = 1)
+# add a legend
+legend(x = "topright", 
+   c("Mean", "Sigma"),
+   col = c("blue", "red"),
+   lwd = c(2, 2))
 ```
 
 ![](simulation_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
@@ -126,7 +155,7 @@ mean(sim_mns)
 ```
 
 ```
-## [1] 5.025306
+## [1] 5.035017
 ```
 
 Now let's calculate the standard deviation of the means of these 1000 simulated distributions
@@ -137,5 +166,10 @@ sd(sim_mns)
 ```
 
 ```
-## [1] 0.79456
+## [1] 0.7857929
 ```
+
+## Conclusion
+
+This series of simulations shows that we can start with a known distribution that is NOT normally distributed, in this case a logrithmic or exponential distribution, and if we take enough samples, calculate their means, and then chart these means with a histogram, then the distribution of these means will exhibit a mean which is equivalent to the population mean and a variance which becomes normal (sigma = 1).  This is precisely the definition of the Central Limit Theorem and this exercise has helped us simulate and to validate our understanding of this important statistical inference rule.
+
