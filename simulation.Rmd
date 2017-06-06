@@ -3,6 +3,7 @@ title: "Asymptotics and use of the Central Limit Theorem"
 author: "Jack Welch"
 date: "June 4, 2017"
 output:
+  word_document: default
   html_document:
     keep_md: yes
 ---
@@ -128,5 +129,13 @@ sd(sim_mns)
 
 ## Conclusion
 
-This series of simulations shows that we can start with a known distribution that is NOT normally distributed, in this case a logrithmic or exponential distribution, and if we take enough samples, calculate their means, and then chart these means with a histogram, then the distribution of these means will exhibit a mean which is equivalent to the population mean and a variance which becomes normal (sigma = 1).  This is precisely the definition of the Central Limit Theorem and this exercise has helped us simulate and to validate our understanding of this important statistical inference rule.
+This series of simulations shows that we can start with a known distribution that is NOT normally distributed, in this case a logrithmic or exponential distribution.  This exponential distribution has a theoretical mean and standard deviation of 5 (based on the given lambda value of 0.2).
+
+If we take enough samples from this exponential distribution, calculate their means, and then chart these means with a histogram, then the distribution of these means will exhibit a mean which is equivalent to the population mean (5 in this case), and the variance becomes more normal (standard deviation = 1).  This is precisely the definition of the Central Limit Theorem and this exercise has helped us simulate and to validate our understanding of this important statistical inference rule.
+
+
+
+
+
+
 

@@ -1,0 +1,69 @@
+---
+title: "Exploratory Data Analysis of Tooth Growth"
+author: "Jack Welch"
+date: "June 6, 2017"
+output:
+  html_document:
+    keep_md: yes
+---
+
+## Overview
+
+Instructions taken from the Statistical Inference course offered by Johns Hopkins University on Coursera:
+
+In the second portion of the project, we're going to analyze the ToothGrowth data in the R datasets package.  This dataset contains observations related to the length of odontoblasts (cell response for tooth growth) in guinea pigs.  We are to analyze the growth corresponding to a specific dose of Vitamin C delivered in 3 possible doses (0.5, 1.0 and 2.0 mg/day) and delivered via two possible different supplement types (OJ=Orange juice or VC=Ascorbic Acid).
+
+1. Load the ToothGrowth data and perform some basic exploratory data analyses
+2. Provide a basic summary of the data.
+3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+4. State your conclusions and the assumptions needed for your conclusions.
+
+## Exploratory Data Analysis of the ToothGrowth Dataset
+
+We have not been given any instructions whatsoever related to the format of this data set or what it might represent.  We have been asked to attempt to familiarize ourselves with this data with the use of exploratory data analysis techniques available with R programming.  We will now conduct a few techniques so that we can become more familiar with this dataset.  Comments are embedded within the R code below.
+
+```{r}
+# Load ToothGrowth dataset
+tgdata <- ToothGrowth
+
+# output a summary of the dataset
+summary(tgdata)
+
+# identify the structure of the existing dataset
+str(tgdata)
+
+# convert dose to a factor and look at structural change
+tgdata$dose <- factor(tgdata$dose)
+str(tgdata)
+
+# visualize the dataset (since it is a small dataset)
+tgdata
+
+```
+
+Let's now load the **ggplot2** library and visualize this data on a box plot.
+
+
+```{r}
+library("ggplot2")
+tgdata$dose=as.factor(tgdata$dose)
+ggplot(tgdata, aes(x=dose,y=len)) + 
+    geom_boxplot(aes(fill = dose)) + 
+    ggtitle('Fig.1. Tooth Growth Dependence on Dose and Supplement ') + 
+    facet_grid(.~supp) + 
+        theme(axis.title.y = element_text(colour="gray20",size=12,angle=90,hjust=.5,vjust=1),
+        axis.title.x = element_text(colour="gray20"),
+        plot.title = element_text(vjust=1.5,size = 12,colour="purple"),
+        axis.text.x = element_text(colour="red",size=10,angle=45,hjust=.5, vjust=.5))
+
+```
+
+The box plots, as shown above in Fig. 1, allow us to visualize the distribution of the data along with five other important data points, including the min value, max value, mean, and the 1st and 3rd quartiles.  Points on the lines outside the boxes are considered the outliers in the dataset.  This visualization of the distribution of data clearly suggests that tooth growth in the guinea pigs clearly favored the delivery of the Vitamin C via the OJ with the smaller doses of 0.5 and 1 mg/day. The data further shows that while the means of the tooth growth related to the method of supplement delivery are equivalent with the higher dose of 2 mg/day, the tooth growth does show slightly higher normal variation with the ascorbic acid supplement in that higher dose of 2 mg/day.
+
+
+
+
+
+
+
+

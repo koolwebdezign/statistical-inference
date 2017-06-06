@@ -53,14 +53,13 @@ expdist
 ```
 
 ```
-##  [1]  5.599751575 10.513770254  6.188094360  4.512171331  5.907846175
-##  [6]  6.049112014 26.365013950  1.568491529  0.613827304  5.572777809
-## [11]  3.337791972  2.600297329  7.816823544  9.418239509 10.407002681
-## [16]  1.172556446  3.261417479  9.722608178  6.645629224  3.026864612
-## [21]  1.636207082  6.186485486  2.156961276  2.088314933  2.553908846
-## [26]  4.100858595  5.321256579 11.184307122  4.174025995  3.279541843
-## [31]  7.554924478  6.040181964  2.224421414  2.842404698  3.640394150
-## [36]  5.433953829  1.507023657 12.156306588  7.258980269  0.006014754
+##  [1]  0.3421655  0.1650764 15.3483770  6.8469729  0.3324042  6.5155689
+##  [7]  6.1739915  0.2272214  3.2743136  8.8088038  8.6859988 12.6462913
+## [13]  2.8193374  6.3029590  8.1937231  5.0738064  1.3847969  3.8644889
+## [19]  2.5716825 13.7377798  7.3767425  1.6356002  0.6904719 13.7330711
+## [25]  3.2187636  0.6712888  2.0189155  3.3470055  1.9319560  4.3744128
+## [31]  0.4087899  4.3238883  4.6900846  1.6533802  0.6173203  5.4136454
+## [37]  1.0532071  5.6471579  0.5132696  0.1917697
 ```
 
 ```r
@@ -89,7 +88,7 @@ mean(expdist)
 ```
 
 ```
-## [1] 5.541164
+## [1] 4.420662
 ```
 
 Now, let's calculate the standard deviation of this simulated exponential distribution
@@ -100,7 +99,7 @@ sd(expdist)
 ```
 
 ```
-## [1] 4.573459
+## [1] 4.1131
 ```
 
 ### Theoretical Mean and Standard Deviation of Exponential Distribution
@@ -155,7 +154,7 @@ mean(sim_mns)
 ```
 
 ```
-## [1] 5.019662
+## [1] 4.996116
 ```
 
 Now let's calculate the standard deviation of the means of these 1000 simulated distributions
@@ -166,10 +165,18 @@ sd(sim_mns)
 ```
 
 ```
-## [1] 0.7955683
+## [1] 0.7650026
 ```
 
 ## Conclusion
 
-This series of simulations shows that we can start with a known distribution that is NOT normally distributed, in this case a logrithmic or exponential distribution, and if we take enough samples, calculate their means, and then chart these means with a histogram, then the distribution of these means will exhibit a mean which is equivalent to the population mean and a variance which becomes normal (sigma = 1).  This is precisely the definition of the Central Limit Theorem and this exercise has helped us simulate and to validate our understanding of this important statistical inference rule.
+This series of simulations shows that we can start with a known distribution that is NOT normally distributed, in this case a logrithmic or exponential distribution.  This exponential distribution has a theoretical mean and standard deviation of 5 (based on the given lambda value of 0.2).
+
+If we take enough samples from this exponential distribution, calculate their means, and then chart these means with a histogram, then the distribution of these means will exhibit a mean which is equivalent to the population mean (5 in this case), and the variance becomes more normal (standard deviation = 1).  This is precisely the definition of the Central Limit Theorem and this exercise has helped us simulate and to validate our understanding of this important statistical inference rule.
+
+
+
+
+
+
 
