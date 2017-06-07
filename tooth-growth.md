@@ -17,6 +17,8 @@ In the second portion of the project, we're going to analyze the ToothGrowth dat
 
 We have not been given any instructions whatsoever related to the format of this data set or what it might represent.  We have been asked to attempt to familiarize ourselves with this data with the use of exploratory data analysis techniques available with R programming.  We will now conduct a few techniques so that we can become more familiar with this dataset.  Comments are embedded within the R code below.
 
+### Initial Data Mining
+
 
 ```r
 # Load ToothGrowth dataset
@@ -130,6 +132,8 @@ tgdata
 ## 60 23.0   OJ    2
 ```
 
+### Box Plot Visualization
+
 Let's now load the **ggplot2** library and visualize this data on a box plot.
 
 
@@ -139,22 +143,127 @@ library("ggplot2")
 tgdata$dose=as.factor(tgdata$dose)
 ggplot(tgdata, aes(x=dose,y=len)) + 
     geom_boxplot(aes(fill = dose)) + 
-    ggtitle('Fig.1. Tooth Growth Dependence on Dose and Supplement ') + 
+    ggtitle('Fig. 1. Tooth Growth Dependence on Dose and Supplement ') + 
     facet_grid(.~supp) + 
         theme(axis.title.y = element_text(colour="gray20",size=12,angle=90,hjust=.5,vjust=1),
         axis.title.x = element_text(colour="gray20"),
-        plot.title = element_text(vjust=1.5,size = 12,colour="purple"),
         axis.text.x = element_text(colour="red",size=10,angle=45,hjust=.5, vjust=.5))
 ```
 
 ![](tooth-growth_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
-The box plots, as shown above in Fig. 1, allow us to visualize the distribution of the data along with five other important data points, including the min value, max value, mean, and the 1st and 3rd quartiles.  Points on the lines outside the boxes are considered the outliers in the dataset.  This visualization of the distribution of data clearly suggests that tooth growth in the guinea pigs clearly favored the delivery of the Vitamin C via the OJ with the smaller doses of 0.5 and 1 mg/day. The data further shows that while the means of the tooth growth related to the method of supplement delivery are equivalent with the higher dose of 2 mg/day. The tooth growth does show slightly higher normal variation with the ascorbic acid supplement in that higher dose of 2 mg/day.
+The box plots, as shown above in Fig. 1, allow us to visualize the distribution of the data along with five other important data points, including the min value, max value, mean, and the 1st and 3rd quartiles.  Points on the lines outside the boxes are considered the outliers in the dataset.  This visualization of the distribution of data clearly suggests that tooth growth in the guinea pigs clearly favored the delivery of the Vitamin C via the OJ with the smaller doses of 0.5 and 1 mg/day. The data further shows that while the means of the tooth growth related to the method of supplement delivery are equivalent with the higher dose of 2 mg/day, the tooth growth does show slightly higher normal variation with the ascorbic acid supplement in that higher dose of 2 mg/day.
+
+### Scatter Plot Visualization
+
+Here is another visualization of the data using a scatterplot that I find very helpful.  
 
 
+```r
+# Calculate the mean for every dose and supp
+avg <- aggregate(len~., data=tgdata, mean)
+g <- ggplot(aes(x=dose, y=len), data=tgdata) + 
+    geom_point(aes(color=supp)) +
+    ggtitle('Fig. 2. Tooth Growth Dependence on Dose and Supplement ')
+g <- g + geom_line(data=avg,aes(group=supp,colour=supp))
+print(g)
+```
+
+![](tooth-growth_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+This plot shows the same result as the boxplot in Fig. 1. In Fig. 2, once again, we can visualize that the tooth length associated with the OJ supplement are clearly higher with the lower doses and these means converge with the higher dose of 2 mg/day.  At the higher dose of 2 mg/day, along with the convergence of the means, we can easily visualize that the variance of the data is greater with the VC supplement thus creating some events with greater tooth length along with events that are clearly shorter.
+
+## T Confidence Intervals and Hypothesis Testing
+
+T Confidence Intervals is a statistical method for dealing with small datasets. In the Asymptotics lesson, we discussed confidence intervals using the Central Limit Theorem (CLT) and normal distributions.  These methods required large sample sizes, and the formula for computing the confidence interval was mean +/- qnorm * std error(mean).  Here, qnorm represents a specified quantile from a normal distribution.  Also, in the study of Asymptotics, we also learned about the Z statistic Z =(X'-mu)/(sigma/sqrt(n)) which follows a standard normal distribution.  This normalized Z statistic is especially nice because we know tha values of the mean and the variance which are 0 and 1, respectively.
+
+The T statistic looks a lot like the Z.  It's defined as t=(X'-mu)/(s/sqrt(n)).  Like the Z statistic, the t is centered around 0.  The only difference between the two is that the population standard deviation, sigma, in Z is replaced by the sample standard deviation in the t.  So the distribution of the t statistic is independent on the population mean and variance.  Instead, it depends on the sample size of n.  The sample size of n now leads us into the definition of a concept of number of degrees of freedom, df, which is calculated simply as n-1.
+
+In our lesson, we are encouraged, unless otherwise instructed, to consider that the default confidence interval should always be 95%.  Our lecture took us through a series of exercises that concluded with the suggested use of the built-in R programming capabilities of t.test.
+
+### Subset Dosage as a Factor
 
 
+```r
+dose1 <- subset(tgdata, dose %in% c(0.5, 1.0))
+dose2 <- subset(tgdata, dose %in% c(0.5, 2.0))
+dose3 <- subset(tgdata, dose %in% c(1.0, 2.0))
+t.test(len ~ dose, paired = F, var.equal = F, data = dose1)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  len by dose
+## t = -6.4766, df = 37.986, p-value = 1.268e-07
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -11.983781  -6.276219
+## sample estimates:
+## mean in group 0.5   mean in group 1 
+##            10.605            19.735
+```
 
 
+```r
+t.test(len ~ dose, paired = F, var.equal = F, data = dose2)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  len by dose
+## t = -11.799, df = 36.883, p-value = 4.398e-14
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -18.15617 -12.83383
+## sample estimates:
+## mean in group 0.5   mean in group 2 
+##            10.605            26.100
+```
 
 
+```r
+t.test(len ~ dose, paired = F, var.equal = F, data = dose3)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  len by dose
+## t = -4.9005, df = 37.101, p-value = 1.906e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -8.996481 -3.733519
+## sample estimates:
+## mean in group 1 mean in group 2 
+##          19.735          26.100
+```
+
+### Supplement Dosage as a Factor
+
+
+```r
+t.test(len ~ supp, paired = F, var.equal = F, data = tgdata)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  len by supp
+## t = 1.9153, df = 55.309, p-value = 0.06063
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.1710156  7.5710156
+## sample estimates:
+## mean in group OJ mean in group VC 
+##         20.66333         16.96333
+```
+
+## Conclusion
+
+From the t confidence intervals calculated above, we can conclude that we should reject the null hypothesis, and confirm that there is a significant correlation between tooth length and dosage levels because the value of zero does not appear within any of the calculated confidence intervals. Alternatively, we would choose to accept the null hypothesis and confirm that there is no correlation between delivery method and tooth length as the value of zero does exist within the bounds of the calculated confidence interval.
