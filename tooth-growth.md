@@ -13,6 +13,16 @@ In the second portion of the project, we're going to analyze the ToothGrowth dat
 3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
 4. State your conclusions and the assumptions needed for your conclusions.
 
+## Assumptions
+
+This analysis and its conclusions are dependent on the following set of assumptions:
+
+1. The sample populations are ramdomly selected and independent of each other.
+2. The population was comprised of similar guinea pigs as was the methods for delivery of supplements, thus the variables are independent and identically distributed (iid).
+3. Variances of tooth growth are different when using different supplements and delivery methods.
+4. Tooth growth follows a normal distribution.
+5. A confidence interval of 95% is satisfactory for our conclusions.
+
 ## Exploratory Data Analysis of the ToothGrowth Dataset
 
 We have not been given any instructions whatsoever related to the format of this data set or what it might represent.  We have been asked to attempt to familiarize ourselves with this data with the use of exploratory data analysis techniques available with R programming.  We will now conduct a few techniques so that we can become more familiar with this dataset.  Comments are embedded within the R code below.
